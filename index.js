@@ -24,10 +24,20 @@ const app = express();
 app.use(express.json({limit: "50mb"}));
 app.use(morgan("common"));
 app.use(cookieParser());
+
+let origin = "http://localhost:3000";
+console.log("here env is ", process.env.NODE_ENV);
+console.log('the origin url is ',origin)
+if (process.env.NODE_ENV == 'production') {
+  console.log('I am inside production');
+  origin = process.env.CORS_ORIGIN;
+  console.log('origin url is ',origin);
+}
+
 app.use(
   cors({
     credentials: true,
-    origin: process.env.CORS_ORIGIN,
+    origin,
   })
 );
 
